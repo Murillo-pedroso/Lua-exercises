@@ -1,5 +1,6 @@
 {
     "Lua.diagnostics.globals": [
-        "nomes"
+        "nomes",
+        "usuarios"
     ]
 }
