@@ -128,6 +128,30 @@ checaObjetivo = function ()
     end
     
 end
+restart = function()
+    pontuacao = 0
+    somAmbiente:stop()
+    somDestruicao:stop()
+    somGameOver:stop()
+    somTiro:stop()
+    somVencedor:stop()
+    somAmbiente:play()
+    for i=#meteoros,1,-1 do
+        table.remove(meteoros,i)
+    end
+    for i=#aviao.tiros,1,-1 do
+        table.remove(aviao.tiros,i)
+    end
+    
+    aviao.x=WIDTH_SCREEN/2 - 60/2
+    aviao.y=HEIGHT_SCREEN - 50
+    VENCEDOR = false
+    FIM_JOGO = false
+    aviao.scr = "imagens/nave.png"
+    aviao.imagem = love.graphics.newImage(aviao.scr)
+    aviao.height = 63
+    aviao.width = 55
+end
 function love.load()
     --configs gerais
     math.randomseed(os.time())
@@ -179,28 +203,8 @@ function love.keypressed(tecla)
         atirar()
     end
     if tecla == "r"then
-        pontuacao = 0
-        somAmbiente:stop()
-        somDestruicao:stop()
-        somGameOver:stop()
-        somTiro:stop()
-        somVencedor:stop()
-        somAmbiente:play()
-        for i=#meteoros,1,-1 do
-            table.remove(meteoros,i)
-        end
-        for i=#aviao.tiros,1,-1 do
-            table.remove(aviao.tiros,i)
-        end
+        restart()
         
-        aviao.x=WIDTH_SCREEN/2 - 60/2
-        aviao.y=HEIGHT_SCREEN - 50
-        VENCEDOR = false
-        FIM_JOGO = false
-        aviao.scr = "imagens/nave.png"
-        aviao.imagem = love.graphics.newImage(aviao.scr)
-        aviao.height = 63
-        aviao.width = 55
     end
 end
 -- Draw a coloured rectangle.
