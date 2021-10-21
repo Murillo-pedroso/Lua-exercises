@@ -170,13 +170,37 @@ function love.update(dt)
         checaObjetivo();
     end
 end
-function love.keypressed(tecla)
+function love.keypressed(tecla)             
 
     if tecla == "escape" then
         love.event.quit()
     end
     if tecla == "space" then
         atirar()
+    end
+    if tecla == "r"then
+        pontuacao = 0
+        somAmbiente:stop()
+        somDestruicao:stop()
+        somGameOver:stop()
+        somTiro:stop()
+        somVencedor:stop()
+        somAmbiente:play()
+        for i=#meteoros,1,-1 do
+            table.remove(meteoros,i)
+        end
+        for i=#aviao.tiros,1,-1 do
+            table.remove(aviao.tiros,i)
+        end
+        
+        aviao.x=WIDTH_SCREEN/2 - 60/2
+        aviao.y=HEIGHT_SCREEN - 50
+        VENCEDOR = false
+        FIM_JOGO = false
+        aviao.scr = "imagens/nave.png"
+        aviao.imagem = love.graphics.newImage(aviao.scr)
+        aviao.height = 63
+        aviao.width = 55
     end
 end
 -- Draw a coloured rectangle.
@@ -185,6 +209,9 @@ function love.draw()
     
     love.graphics.draw(aviao.imagem , aviao.x , aviao.y )
     love.graphics.print("Pontuação: "..pontuacao,0,0)
+    love.graphics.print("Esc - SAIR ",236,0)
+    love.graphics.print("R - REINICIAR ",236,13)
+
 
     for i, meteoro in pairs(meteoros) do
         love.graphics.draw(meteoroImagem , meteoro.x , meteoro.y)
