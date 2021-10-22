@@ -196,12 +196,14 @@ function love.update(dt)
         checaColisao();
         checaObjetivo();
     end
+    
 end
 function love.keypressed(tecla)             
 
     if tecla == "escape" then
         love.event.quit()
     end
+    if not FIM_JOGO and not VENCEDOR then
     if tecla == "space" then
         if #aviao.tiros <1 then
          atirar()
@@ -212,7 +214,7 @@ function love.keypressed(tecla)
                   timer=0
               end
         end
-        
+    end
         
     end
     if tecla == "r"then
