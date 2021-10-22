@@ -3,6 +3,7 @@ WIDTH_SCREEN = 320
 HEIGHT_SCREEN = 480;
 MAX_METEOROS = 12;
 pontuacao = 0
+timer = 0
 aviao={
     scr = "imagens/nave.png",
     height = 63,
@@ -50,7 +51,7 @@ end
 moveTiro = function()
     for i = #aviao.tiros, 1, -1 do
         if aviao.tiros[i].y>0 then
-            aviao.tiros[i].y = aviao.tiros[i].y - 1
+            aviao.tiros[i].y = aviao.tiros[i].y - 4
         else
             table.remove(aviao.tiros,i)
         end
@@ -130,6 +131,7 @@ checaObjetivo = function ()
 end
 restart = function()
     pontuacao = 0
+    timer=0
     somAmbiente:stop()
     somDestruicao:stop()
     somGameOver:stop()
@@ -188,6 +190,7 @@ function love.update(dt)
         if #meteoros < MAX_METEOROS then
             criaMeteoro();
         end
+        timer = timer+1;
         moveTiro();
         moveMeteoro();
         checaColisao();
@@ -200,7 +203,17 @@ function love.keypressed(tecla)
         love.event.quit()
     end
     if tecla == "space" then
-        atirar()
+        if #aviao.tiros <1 then
+         atirar()
+         timer=0
+        else    
+              if timer>=25 then
+                  atirar()
+                  timer=0
+              end
+        end
+        
+        
     end
     if tecla == "r"then
         restart()
@@ -215,7 +228,7 @@ function love.draw()
     love.graphics.print("Pontuação: "..pontuacao,0,0)
     love.graphics.print("Esc - SAIR ",236,0)
     love.graphics.print("R - REINICIAR ",236,13)
-
+    
 
     for i, meteoro in pairs(meteoros) do
         love.graphics.draw(meteoroImagem , meteoro.x , meteoro.y)
