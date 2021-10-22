@@ -4,6 +4,7 @@ HEIGHT_SCREEN = 480;
 MAX_METEOROS = 12;
 pontuacao = 0
 timer = 0
+PAUSADO = false
 aviao={
     scr = "imagens/nave.png",
     height = 63,
@@ -153,7 +154,17 @@ restart = function()
     aviao.imagem = love.graphics.newImage(aviao.scr)
     aviao.height = 63
     aviao.width = 55
+    PAUSADO = false
 end
+pausa = function ()
+    if PAUSADO == true then
+        PAUSADO =false
+    else   
+        PAUSADO =true
+    end
+end
+    
+
 function love.load()
     --configs gerais
     math.randomseed(os.time())
@@ -182,7 +193,7 @@ end
 
 -- Increase the size of the rectangle every frame.
 function love.update(dt)
-    if not FIM_JOGO and not VENCEDOR then
+    if not FIM_JOGO and not VENCEDOR and not PAUSADO  then
         if love.keyboard.isDown('w','a','s','d','up','down','left','right') then
             aviao.moveAviao();
         end
@@ -196,6 +207,7 @@ function love.update(dt)
         checaColisao();
         checaObjetivo();
     end
+    checaObjetivo();
     
 end
 function love.keypressed(tecla)             
@@ -203,7 +215,7 @@ function love.keypressed(tecla)
     if tecla == "escape" then
         love.event.quit()
     end
-    if not FIM_JOGO and not VENCEDOR then
+    if not FIM_JOGO and not VENCEDOR and not PAUSADO then
     if tecla == "space" then
         if #aviao.tiros <1 then
          atirar()
@@ -215,7 +227,12 @@ function love.keypressed(tecla)
               end
         end
     end
-        
+   
+    end
+    if not FIM_JOGO and not VENCEDOR then
+        if tecla == "p" then
+            pausa()
+        end
     end
     if tecla == "r"then
         restart()
@@ -230,6 +247,8 @@ function love.draw()
     love.graphics.print("Pontuação: "..pontuacao,0,0)
     love.graphics.print("Esc - SAIR ",236,0)
     love.graphics.print("R - REINICIAR ",236,13)
+    love.graphics.print("P - PAUSAR ",236,23)
+
     
 
     for i, meteoro in pairs(meteoros) do
