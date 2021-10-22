@@ -247,7 +247,7 @@ function love.draw()
     love.graphics.print("Pontuação: "..pontuacao,0,0)
     love.graphics.print("Esc - SAIR ",236,0)
     love.graphics.print("R - REINICIAR ",236,13)
-    love.graphics.print("P - PAUSAR ",236,23)
+    love.graphics.print("P - PAUSAR ",236,26)
 
     
 
